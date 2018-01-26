@@ -6,6 +6,7 @@ import {APP_ROUTES} from './app.routes';
 
 // Modulos //
 import {PagesModule} from './pages/pages.module';
+import {FormsModule} from '@angular/forms';
 
 // Componentes //
 import { AppComponent } from './app.component';
@@ -16,11 +17,12 @@ import { RegisterComponent } from './login/register.component';
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
     PagesModule,
+    FormsModule,
     APP_ROUTES
   ],
   providers: [],
