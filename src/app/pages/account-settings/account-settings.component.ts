@@ -1,5 +1,6 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, ElementRef, Inject, OnInit} from '@angular/core';
 import {DOCUMENT} from '@angular/platform-browser';
+
 
 
 @Component({
@@ -9,16 +10,27 @@ import {DOCUMENT} from '@angular/platform-browser';
 })
 export class AccountSettingsComponent implements OnInit {
 
-  constructor( @Inject(DOCUMENT) private _document) {
+  constructor(@Inject(DOCUMENT) private _document) {
   }
 
   ngOnInit() {
   }
 
-  cambiarColor(tema: string) {
-    console.log(tema);
+  cambiarColor(tema: string, link: any) {
+
+    this.aplicaCheck(link);
+
     let url = `assets/css/colors/${tema}.css`;
     this._document.getElementById('tema').setAttribute('href', url);
   }
 
+  aplicaCheck(link: any) {
+
+    let selectores: any = document.getElementsByClassName('selector');
+
+    for (let ref of selectores){
+      ref.classList.remove('working');
+    }
+    link.classList.add('working');
+  }
 }
