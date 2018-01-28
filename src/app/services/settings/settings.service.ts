@@ -14,22 +14,17 @@ export class SettingsService {
   }
 
   guardarAjustes() {
-    console.log('Guardado en el localStorage');
     localStorage.setItem('ajustes', JSON.stringify(this.ajustes));
   }
 
   cargarAgjustes() {
     if (localStorage.getItem('ajustes')) {
       this.ajustes = JSON.parse(localStorage.getItem('ajustes'));
-      console.log('Cargando del localStorage');
-    } else {
-      console.log('Usando valores por defecto');
     }
     this.aplicarTema(this.ajustes.tema);
   }
 
   aplicarTema(tema: string) {
-
     let url = `assets/css/colors/${tema}.css`;
     this._document.getElementById('tema').setAttribute('href', url);
 
@@ -37,9 +32,7 @@ export class SettingsService {
     this.ajustes.temaUrl = url;
 
     this.guardarAjustes();
-
   }
-
 }
 
 interface Ajustes {
