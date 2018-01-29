@@ -1,16 +1,18 @@
-import {Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs/Rx';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Observable, Subscription} from 'rxjs/Rx';
 
 @Component({
   selector: 'app-rxjs',
   templateUrl: './rxjs.component.html',
   styles: []
 })
-export class RxjsComponent implements OnInit {
+export class RxjsComponent implements OnInit, OnDestroy {
+
+  subcription: Subscription;
 
   constructor() {
 
-    this.regresaObservable()
+    this.subcription = this.regresaObservable()
       .subscribe(
         numero => console.log('Subs ', numero),
         error => console.log('Error en el obs ', error),
@@ -20,6 +22,11 @@ export class RxjsComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    console.log('La pagina se va a cerrar');
+    this.subcription.unsubscribe();
   }
 
   regresaObservable(): Observable<number> {
@@ -41,11 +48,11 @@ export class RxjsComponent implements OnInit {
            observer.error('Auxilio');
          }*/
 
-        if (contador === 3) {
+        /*if (contador === 3) {
           clearInterval(intervalo);
           observer.complete();
-        }
-      }, 1000);
+        }*/
+      }, 500);
     }).retry(2)
       .map((resp: any) => {
         return resp.valor;
