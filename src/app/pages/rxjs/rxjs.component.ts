@@ -11,12 +11,11 @@ export class RxjsComponent implements OnInit {
   constructor() {
 
     this.regresaObservable()
-      .retry(2)
       .subscribe(
-      numero => console.log('Subs ', numero),
-      error => console.log('Error en el obs ', error),
-      () => console.log('El observador termino !')
-    );
+        numero => console.log('Subs ', numero),
+        error => console.log('Error en el obs ', error),
+        () => console.log('El observador termino !')
+      );
 
   }
 
@@ -30,19 +29,27 @@ export class RxjsComponent implements OnInit {
       let contador = 0;
       let intervalo = setInterval(() => {
         contador += 1;
-        observer.next(contador);
 
-        if (contador === 2) {
-          clearInterval(intervalo);
-          observer.error('Auxilio');
-        }
+        let salida = {
+          valor: contador
+        };
+
+        observer.next(salida);
+
+        /* if (contador === 2) {
+           clearInterval(intervalo);
+           observer.error('Auxilio');
+         }*/
 
         if (contador === 3) {
           clearInterval(intervalo);
           observer.complete();
         }
       }, 1000);
-    });
+    }).retry(2)
+      .map((resp: any) => {
+        return resp.valor;
+      });
 
   }
 
