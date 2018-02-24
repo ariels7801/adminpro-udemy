@@ -11,14 +11,20 @@ export class UsuarioService {
     console.log('Servicio de usuario listo');
   }
 
-  login(usuario: Usuario, recuerdame: boolean = false) {
+  login(usuario: Usuario, recordar: boolean = false) {
+
+    if (recordar) {
+      localStorage.setItem('email', usuario.email);
+    } else {
+      localStorage.removeItem('email');
+    }
+
     let url = URL_SERVICIOS + '/login';
     return this.http.post(url, usuario)
       .map((resp: any) => {
         localStorage.setItem('id', resp.id);
         localStorage.setItem('token', resp.token);
         localStorage.setItem('usuario', JSON.stringify(resp.usuario));
-
         return true;
       });
   }
