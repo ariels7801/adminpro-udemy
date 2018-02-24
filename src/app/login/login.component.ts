@@ -6,6 +6,8 @@ import {Usuario} from '../models/usuario.model';
 
 declare function init_plugins();
 
+declare const gapi: any;
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -16,11 +18,14 @@ export class LoginComponent implements OnInit {
   email: string;
   recordar: boolean = false;
 
+  auth2: any;
+
   constructor(private _usuarioService: UsuarioService, private router: Router) {
   }
 
   ngOnInit() {
     init_plugins();
+    this.googleInit();
 
     this.email = localStorage.getItem('email') || '';
 
@@ -28,6 +33,27 @@ export class LoginComponent implements OnInit {
       this.recordar = true;
     }
   }
+
+  googleInit() {
+    gapi.load('auth2', () => {
+      this.auth2 = gapi.auth2.init({
+        client_id: '379576743086-sretuburm3nlv8qdkflkm123lc1sg3va.apps.googleusercontent.com',
+        cookiepolicy: 'single_host_origin',
+        scope: 'profile email'
+      });
+
+      this.attachSignin(document.getElementById('btnGoogle'));
+    });
+  }
+
+  attachSignin(element) {
+    this.auth2.attachClickHandler(element, {}, (googleUser) => {
+      // let profile = googleUser.getBasicProfile();
+      let token = googleUser.getAuthResponse().id_token;
+      console.log(token);
+    });
+  }
+
 
   ingresar(forma: NgForm) {
 
