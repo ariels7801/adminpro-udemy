@@ -11,6 +11,15 @@ export class UsuarioService {
     console.log('Servicio de usuario listo');
   }
 
+  login(usuario: Usuario, recuerdame: boolean = false) {
+    let url = URL_SERVICIOS + '/login';
+    return this.http.post(url, usuario);
+      /*.map((resp: any) => {
+        swal('Usuario creado', usuario.email, 'success');
+        return resp.usuario;
+      });*/
+  }
+
   crearUsuario(usuario: Usuario) {
     let url = URL_SERVICIOS + '/usuario';
     return this.http.post(url, usuario)
@@ -19,4 +28,5 @@ export class UsuarioService {
         return resp.usuario;
       });
   }
+
 }
