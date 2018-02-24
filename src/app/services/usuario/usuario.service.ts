@@ -13,11 +13,14 @@ export class UsuarioService {
 
   login(usuario: Usuario, recuerdame: boolean = false) {
     let url = URL_SERVICIOS + '/login';
-    return this.http.post(url, usuario);
-      /*.map((resp: any) => {
-        swal('Usuario creado', usuario.email, 'success');
-        return resp.usuario;
-      });*/
+    return this.http.post(url, usuario)
+      .map((resp: any) => {
+        localStorage.setItem('id', resp.id);
+        localStorage.setItem('token', resp.token);
+        localStorage.setItem('usuario', JSON.stringify(resp.usuario));
+
+        return true;
+      });
   }
 
   crearUsuario(usuario: Usuario) {
